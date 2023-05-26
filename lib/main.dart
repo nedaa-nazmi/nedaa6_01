@@ -16,9 +16,12 @@ class page1 extends StatefulWidget {
 class _page1State extends State<page1> {
   int score_system = 0;
   int score_person = 0;
-  int score_person2 = 6;
+  int score_person2 = 5;
   int image_number = Random().nextInt(3) + 1;
   int image_number2 = Random().nextInt(3) + 1;
+
+  String? result;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,29 +59,23 @@ class _page1State extends State<page1> {
                     Expanded(
                         child: Column(
                       children: [
-                        Text(
-                          "$score_person",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                        ),
                         TextButton(
                           onPressed: () {
-                            if (score_person <= score_person2) {
-                              setState(() {
-                                image_number2 = Random().nextInt(3) + 1;
-                                image_number = Random().nextInt(3) + 1;
-                                if (image_number == 2 && image_number2 == 1 ||
-                                    image_number == 3 && image_number2 == 2 ||
-                                    image_number == 1 && image_number2 == 3) {
-                                  score_system++;
-                                }
-                                if (image_number == 1 && image_number2 == 2 ||
-                                    image_number == 3 && image_number2 == 1) {
-                                  score_person++;
-                                }
-                              });
+                            setState(() {
+                              image_number2 = Random().nextInt(3) + 1;
+                              image_number = Random().nextInt(3) + 1;
+                              if (image_number == 2 && image_number2 == 1 ||
+                                  image_number == 3 && image_number2 == 2 ||
+                                  image_number == 1 && image_number2 == 3) {
+                                score_system++;
+                              }
+                              if (image_number == 1 && image_number2 == 2 ||
+                                  image_number == 3 && image_number2 == 1) {
+                                score_person++;
+                              }
+                            });
+                            if (score_person > score_system) {
+                              result = 'player 1 win';
                             }
                           },
                           child: Image.asset("assets/image$image_number.png"),
@@ -93,43 +90,50 @@ class _page1State extends State<page1> {
                               fontSize: 24,
                               color: Colors.white),
                         ),
-                        SizedBox(height: 50),
-                      ],
-                    )),
-                    Text(
-                      "Vs",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 28,
-                          color: Colors.white),
-                    ),
-                    Expanded(
-                        child: Column(
-                      children: [
+                        SizedBox(height: 30),
                         Text(
-                          "$score_system",
+                          "$score_person",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 24,
                               fontWeight: FontWeight.bold),
                         ),
+                      ],
+                    )),
+                    Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Vs",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        child: Column(
+                      children: [
                         TextButton(
                           onPressed: () {
-                            if (score_system <= score_person2) {
-                              setState(() {
-                                image_number2 = Random().nextInt(3) + 1;
-                                image_number = Random().nextInt(3) + 1;
+                            setState(() {
+                              image_number2 = Random().nextInt(3) + 1;
+                              image_number = Random().nextInt(3) + 1;
 
-                                if (image_number2 == 2 && image_number == 1 ||
-                                    image_number2 == 3 && image_number == 2 ||
-                                    image_number2 == 1 && image_number == 3) {
-                                  score_person++;
-                                }
-                                if (image_number2 == 1 && image_number == 2 ||
-                                    image_number2 == 3 && image_number == 1) {
-                                  score_system++;
-                                }
-                              });
+                              if (image_number2 == 2 && image_number == 1 ||
+                                  image_number2 == 3 && image_number == 2 ||
+                                  image_number2 == 1 && image_number == 3) {
+                                score_person++;
+                              }
+                              if (image_number2 == 1 && image_number == 2 ||
+                                  image_number2 == 3 && image_number == 1) {
+                                score_system++;
+                              }
+                            });
+                            if (score_system > score_person) {
+                              result = 'player 2 win';
                             }
                           },
                           child: Image.asset("assets/image$image_number2.png"),
@@ -144,10 +148,25 @@ class _page1State extends State<page1> {
                               fontSize: 24,
                               color: Colors.white),
                         ),
-                        SizedBox(height: 50)
+                        SizedBox(height: 30),
+                        Text(
+                          "$score_system",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ],
                     )),
                   ],
+                ),
+                SizedBox(height: 50),
+                Text(
+                  result ?? '',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),
